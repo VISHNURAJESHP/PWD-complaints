@@ -13,3 +13,7 @@ class OfficialSerializer(serializers.ModelSerializer):
             instance.set_password(password)  # Ensure password is set correctly
         instance.save()
         return instance
+
+class LoginSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField(write_only=True)
