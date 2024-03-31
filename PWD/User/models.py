@@ -43,10 +43,9 @@ class official(AbstractBaseUser):
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
-    is_admin = models.BooleanField(default=True)
+    is_admin = models.BooleanField(default=False)
 
 
-    # Specify the custom manager for the User model
     objects = UserManager()
 
     USERNAME_FIELD = "email"
@@ -57,6 +56,23 @@ class official(AbstractBaseUser):
 
     def has_perm(self, perm, obj=None):
         return self.is_admin
+
+    def __str__(self):
+        return self.username
+    
+    
+class User(AbstractBaseUser):
+    id = models.BigAutoField(primary_key=True)
+    username = models.CharField(max_length=50)
+    address = models.TextField(max_length=100)
+    email = models.EmailField(max_length=254)
+    phone_number = models.CharField(max_length=50)
+    created_date = models.DateTimeField(auto_now_add=True)
+
+    objects = UserManager()
+
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["username"]
 
     def __str__(self):
         return self.username

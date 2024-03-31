@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from .models import official
+from .models import official , User
 
-class OfficialSerializer(serializers.ModelSerializer):
+class OfficialRegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = official
-        fields = ['name','password','phone_number','email']
+        fields = ['username','password','phone_number','email']
 
     def create(self, validated_data):
         password = validated_data.pop('password', None)
@@ -13,6 +13,21 @@ class OfficialSerializer(serializers.ModelSerializer):
             instance.set_password(password)  # Ensure password is set correctly
         instance.save()
         return instance
+
+
+class UserRegisterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = "__all__"
+
+    def create(self, validated_data):
+        password = validated_data.pop('password', None)
+        instance = self.Meta.model(**validated_data)
+        if password:
+            instance.set_password(password)  # Ensure password is set correctly
+        instance.save()
+        return instance
+    
 
 class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
