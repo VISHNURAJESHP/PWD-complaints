@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from User.models import User
 
 class Compaints(models.Model):
 
@@ -10,8 +11,7 @@ class Compaints(models.Model):
     ]
 
     complaint_id = models.BigAutoField(primary_key=True)
-    name = models.CharField(max_length=200)
-    phonenumber=models.CharField(max_length=50)
+    User = models.ForeignKey(User, on_delete=models.CASCADE, related_name='username')
     complaint_details = models.CharField(max_length=500)
     # image = models.FileField()
     complaint_location = models.CharField(max_length=500)
