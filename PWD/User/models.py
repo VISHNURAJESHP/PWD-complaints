@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.utils import timezone
+from datetime import timedelta
 
 class UserManager(BaseUserManager):
     def create_user(self, username, email, password=None):
@@ -67,6 +69,9 @@ class User(AbstractBaseUser):
     address = models.TextField(max_length=100)
     email = models.EmailField(max_length=254)
     phone_number = models.CharField(max_length=50)
+    otp = models.CharField(max_length=6, blank=True, null=True)
+    otp_created_at = models.DateTimeField(null=True, blank=True)
+    is_verified = models.BooleanField(blank=False)
     created_date = models.DateTimeField(auto_now_add=True)
 
     objects = UserManager()
@@ -76,3 +81,9 @@ class User(AbstractBaseUser):
 
     def __str__(self):
         return self.username
+    
+    def is_otp_expired(self):
+        if self.otp_created_at:
+            expiration_time = self.otp_created_at + timedelta(minutes=5)
+            return timezone.now() > expiration_time
+        return True
