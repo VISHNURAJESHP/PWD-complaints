@@ -1,8 +1,8 @@
 from django.db import models
 from django.utils import timezone
-from User.models import User
+from User.models import User, official
 
-class Compaints(models.Model):
+class Complaints(models.Model):
 
     WORK_STATUS = [
         ('waiting','Waiting'),
@@ -17,6 +17,7 @@ class Compaints(models.Model):
     complaint_location = models.CharField(max_length=500)
     status = models.CharField(max_length=20, choices=WORK_STATUS, default='waiting')
     reason = models.CharField(max_length=500, null=True)
+    person_updated = models.ForeignKey(official, on_delete=models.CASCADE, related_name='Official_name')
     created_date = models.DateTimeField(default=timezone.now, editable=False)
 
     def __str__(self):

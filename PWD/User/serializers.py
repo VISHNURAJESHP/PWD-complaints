@@ -32,3 +32,13 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField(write_only=True)
+
+class OfficialUpdateSerializer(serializers.Serializer):
+    class Meta:
+        model = official
+        fields ="__all__"
+
+class UserUpdateSerializer(serializers.Serializer):
+    class Meta:
+        model = User
+        fields ="__all__"
