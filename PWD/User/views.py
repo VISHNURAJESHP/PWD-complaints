@@ -1,4 +1,4 @@
-from .serializers import OfficialRegisterSerializer , LoginSerializer , UserRegisterSerializer
+from .serializers import OfficialRegisterSerializer , LoginSerializer , UserRegisterSerializer, OfficialUpdateSerializer, UserUpdateSerializer
 from .models import official, User
 from rest_framework import status
 from rest_framework.views import APIView
@@ -7,7 +7,7 @@ from rest_framework.exceptions import AuthenticationFailed
 import jwt, datetime
 from .utils import generate_otp, send_otp_email
 from django.utils import timezone
-from ddjango.shortcuts import redirect
+from Complaints.utils import authenticate_user
 
 class OfficialRegistrationView(APIView):
     def post(self, request, *args, **kwargs):
@@ -29,7 +29,7 @@ class UserRegistrationView(APIView):
 
         if email == user.email:
 
-            if user.is_verified == True:
+            if user.is_verified:
 
                 return Response({"message":"The email is already registered"})
             
@@ -79,7 +79,7 @@ class OTPVerificationView(APIView):
         return Response({'message': 'Email verified successfully'}, status=status.HTTP_200_OK)
 
 
-class LoginView(APIView):
+class OfficialLoginView(APIView):
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -117,3 +117,36 @@ class LoginView(APIView):
         return response
 
 
+class OfficialDetailsUpdation(APIView):
+    def patch(self, request):
+        token = request.COOKIES.get("jwt")
+        user = authenticate_user(token)
+        serializer = OfficialUpdateSerializer(user, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"Message":"The Details updated succesfully"},status=200)
+        else:
+            return Response({"Error":"Please provide proper details"},status=400)
+        
+        
+    def post(self, request):
+        response = Response({"message": "Logged out successfully"}, status=200)
+        response.delete_cookie('jwt')
+        return response
+    
+class UserDetailsUpdation(APIView):
+    def patch(self, request):
+        token = request.COOKIES.get("jwt")
+        user = authenticate_user(token)
+        serializer = UserUpdateSerializer(user, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"Message":"The Details updated succesfully"},status=200)
+        else:
+            return Response({"Error":"Please provide proper details"},status=400)
+        
+        
+    def post(self, request):
+        response = Response({"message": "Logged out successfully"}, status=200)
+        response.delete_cookie('jwt')
+        return response

@@ -31,19 +31,20 @@ class UserManager(BaseUserManager):
         return user
 
 
+#Note: The administration wing is the head of all other wings so they are responsible for handling the whole wings
 class official(AbstractBaseUser):
     id = models.BigAutoField(primary_key=True)
     #Profile_picture = models.ImageField(upload_to="vendor/profile", blank=True, null=True)
     employee_id = models.DecimalField(max_digits=10, decimal_places=10, null=True, unique=True)
     username = models.CharField(max_length=50)
+    wing = models.CharField(max_length=255, null=True)
     designation = models.CharField(max_length=255, null=True)
     phone_number = models.CharField(max_length=15)
     email = models.EmailField(max_length=254,unique=True,)
     date_joined = models.DateTimeField(auto_now_add=True)
     last_login = models.DateTimeField(auto_now_add=True)
     created_date = models.DateTimeField(auto_now_add=True)
-    is_staff = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
 
