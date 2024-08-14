@@ -134,6 +134,7 @@ class OfficialDetailsUpdation(APIView):
         response.delete_cookie('jwt')
         return response
     
+    
 class UserDetailsUpdation(APIView):
     def patch(self, request):
         token = request.COOKIES.get("jwt")
