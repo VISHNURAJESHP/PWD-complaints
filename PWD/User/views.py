@@ -79,7 +79,7 @@ class OTPVerificationView(APIView):
         return Response({'message': 'Email verified successfully'}, status=status.HTTP_200_OK)
 
 
-class OfficialLoginView(APIView):
+class LoginView(APIView):
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
