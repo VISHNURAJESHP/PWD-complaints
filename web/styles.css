@@ -3,71 +3,84 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-  }
-  
-  body {
+}
+
+body {
     font-family: Arial, sans-serif;
-  }
-  
-  /* Header */
-  header {
+}
+
+/* Header */
+header {
     background: #ffffff;
     padding: 15px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #ddd;
-  }
-  
-  .header-content .logo {
+}
+
+.header-content .logo {
     height: 50px;
-  }
-  
-  header nav a {
+}
+
+header nav a {
     margin: 0 15px;
     color: #333;
     text-decoration: none;
-  }
-  
-  /* Top Banner */
-  .top-banner {
+}
+
+/* Top Banner */
+.top-banner {
     display: flex;
-    background-color: #ff5a5f;
-    color: white;
     padding: 20px;
-  }
-  
-  .top-left img {
-    height: 50px;
-  }
-  
-  .top-right {
+}
+
+.top-left {
+    width: 50%; /* Make the image section half the width */
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    font-size: 20px;
+    background-color: white;
+}
+
+.top-left img {
+    width: 100%; /* Image fills the width of the .top-left */
+    height: 300px;
+}
+
+.top-right {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    background-color: #ff5a5f;
+    color: white;
+    font-size: 36px; /* Larger font size */
     font-weight: bold;
-    text-align: center;
-  }
-  
-  /* News Ticker */
-  .news-ticker {
+    text-align: left;
+    padding: 20px;
+    height: 300px;
+    font-family: 'Arial', sans-serif;
+    line-height: 1.5; /* Adjust line-height for spacing */
+}
+
+/* News Ticker */
+.news-ticker {
     display: flex;
     align-items: center;
     background-color: white;
     padding: 10px 20px;
     border-top: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
-  }
-  
-  .news-ticker marquee {
+}
+
+.news-ticker marquee {
     flex: 1;
     color: black;
     font-size: 16px;
-  }
-  
-  .news-label {
+}
+
+.news-label {
     background-color: #ff5a5f;
     color: white;
     padding: 10px;
@@ -77,44 +90,44 @@
     align-items: center;
     justify-content: center;
     height: 100%;
-  }
-  
-  /* About Section */
-  .about {
+}
+
+/* About Section */
+.about {
     padding: 40px 20px;
     background-color: #f5f5f5; /* Light background */
     color: black;
-  }
-  
-  .about-content {
+}
+
+.about-content {
     display: flex;
     align-items: center;
     justify-content: space-between;
-  }
-  
-  .about-left img {
+}
+
+.about-left img {
     max-width: 100%;
     height: auto;
-  }
-  
-  .about-right {
+}
+
+.about-right {
     max-width: 600px;
     text-align: left;
-  }
-  
-  .about-right h2 {
+}
+
+.about-right h2 {
     font-size: 24px;
     color: #ff5a5f; /* Title color */
     margin-bottom: 10px;
-  }
-  
-  .about-right p {
+}
+
+.about-right p {
     font-size: 16px;
     color: black; /* Description text color */
-  }
-  
-  /* Registration Section with Background Image and Overlay */
-  .registration {
+}
+
+/* Registration Section with Background Image and Overlay */
+.registration {
     background-image: url('registration_background.jpg'); /* Add your background image here */
     background-size: cover;
     background-position: center;
@@ -124,21 +137,21 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-  }
-  
-  .registration .overlay {
+}
+
+.registration .overlay {
     background-color: rgba(255, 90, 95, 0.8); /* Semi-transparent overlay */
     padding: 40px 20px;
     border-radius: 10px;
-  }
-  
-  .registration h2 {
+}
+
+.registration h2 {
     color: white;
     font-size: 24px;
     margin-bottom: 20px;
-  }
-  
-  .apply-btn {
+}
+
+.apply-btn {
     background-color: white;
     color: #ff5a5f;
     padding: 10px 20px;
@@ -146,5 +159,4 @@
     border: none;
     cursor: pointer;
     border-radius: 5px;
-  }
-  
+}
