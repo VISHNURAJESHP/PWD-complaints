@@ -79,7 +79,7 @@ class OTPVerificationView(APIView):
         return Response({'message': 'Email verified successfully'}, status=status.HTTP_200_OK)
 
 
-class OfficialLoginView(APIView):
+class LoginView(APIView):
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -134,6 +134,7 @@ class OfficialDetailsUpdation(APIView):
         response.delete_cookie('jwt')
         return response
     
+    
 class UserDetailsUpdation(APIView):
     def patch(self, request):
         token = request.COOKIES.get("jwt")
@@ -150,3 +151,18 @@ class UserDetailsUpdation(APIView):
         response = Response({"message": "Logged out successfully"}, status=200)
         response.delete_cookie('jwt')
         return response
+    
+class WingHeadSelect(APIView):
+    def post(self,request,official_id):
+        token = request.COOKIES.get("jwt")
+        user = authenticate_user(token)
+        if not user.is_superuser:
+            return Response({"Message":"You are not authorized to assign the wing"},status=403)
+        else:
+            try:
+                official_person = official.objects.find(id=official_id)
+                official_person.head_of_wing = True
+                official_person.save()
+                return Response({"Message":"The person is assigned as the head of the wing"},status=200)
+            except official.DoesNotExist:
+                return Response({"error":"The official not found"},status=404)

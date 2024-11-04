@@ -33,16 +33,24 @@ class UserManager(BaseUserManager):
 
 #Note: The administration wing is the head of all other wings so they are responsible for handling the whole wings
 class official(AbstractBaseUser):
+
+    WING = [
+        ('national_highway','National_Highway'),
+        ('road','Road'),
+        ('buildings','Buildings'),
+        ('bridges','Bridges'),
+    ]
     id = models.BigAutoField(primary_key=True)
     #Profile_picture = models.ImageField(upload_to="vendor/profile", blank=True, null=True)
     employee_id = models.DecimalField(max_digits=10, decimal_places=10, null=True, unique=True)
     username = models.CharField(max_length=50)
-    wing = models.CharField(max_length=255, null=True)
+    wing = models.CharField(max_length=255, choices= WING, null=True)
     designation = models.CharField(max_length=255, null=True)
     phone_number = models.CharField(max_length=15)
-    email = models.EmailField(max_length=254,unique=True,)
-    date_joined = models.DateTimeField(auto_now_add=True)
-    last_login = models.DateTimeField(auto_now_add=True)
+    email = models.EmailField(max_length=254,unique=True)
+    head_of_wing = models.BooleanField(default=False)
+    date_joined = models.DateTimeField(default=timezone.now)
+    last_login = models.DateTimeField(default=timezone.now)
     created_date = models.DateTimeField(auto_now_add=True)
     is_staff = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
@@ -66,14 +74,15 @@ class official(AbstractBaseUser):
     
 class User(AbstractBaseUser):
     id = models.BigAutoField(primary_key=True)
-    username = models.CharField(max_length=50)
+    name = models.CharField(max_length=50)
     address = models.TextField(max_length=100)
     email = models.EmailField(max_length=254)
     phone_number = models.CharField(max_length=50)
     otp = models.CharField(max_length=6, blank=True, null=True)
     otp_created_at = models.DateTimeField(null=True, blank=True)
-    is_verified = models.BooleanField(blank=False)
-    created_date = models.DateTimeField(auto_now_add=True)
+    is_verified = models.BooleanField(blank=False,null=True)
+    is_staff = models.BooleanField(default=False)
+    created_date = models.DateTimeField(default=timezone.now)
 
     objects = UserManager()
 
