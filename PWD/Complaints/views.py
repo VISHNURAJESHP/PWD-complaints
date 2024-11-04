@@ -37,33 +37,33 @@ class ComplaintUpdation:
         else:
             return Response({"error":"You are not authorized update this complaint"},status=403)
         
-class OfficialComplaints(APIView):
+class OfficialWIngComplaints(APIView):
 
-    #Return the list of complaints of the wing
+    #Return the list of complaints of the wing for head otherwise return the complaints assigned to a person
     def get(self,request):
         token = request.COOKIES.get('jwt')
         user = authenticate_user(token)
         wing=user.wing
-        try:
-            complaint_list=Complaints.objects.filter(wing=wing)
-        except:
-            return Response({"error":"There is no complaints"},status=403)
-        
-        try:
-            officals_list = official.objects.filter(wing=wing, head_of_wing=False)
-        except:
-            return Response({"error":"There is no official"},status=403)
-        
-        complaint_serializer = ComplaintListSerializer(complaint_list, many=True)
-        official_serializer = OfficialSerializer(officals_list, many=True)
-
-        return Response({"complaints":complaint_serializer.data, "officials":official_serializer.data})
-    
+        if user.head_of_wing:
+            try:
+                complaint_list=Complaints.objects.filter(wing=wing)
+                officals_list = official.objects.filter(wing=wing, head_of_wing=False)
+                complaint_serializer = ComplaintListSerializer(complaint_list, many=True)
+                official_serializer = OfficialSerializer(officals_list, many=True)
+                return Response({"complaints":complaint_serializer.data, "officials":official_serializer.data})
+            except:
+                return Response({"error":"There is no complaints"},status=403)
+        elif user.is_staff:
+            try:
+                complaint_list=Complaints.objects.filter(person_assigned=user)
+                complaint_serializer = ComplaintListSerializer(complaint_list, many=True)
+                return Response({"complaints":complaint_serializer.data})
+            except:
+                return Response({"error":"There is no complaints"},status=403)
     #assign a complaint to a person
-    def post(self,request,complaint_id):
+    def post(self,request,complaint_id,person_id):
         token = request.COOKIES.get('jwt')
         user = authenticate_user(token)
-        person_id = request.data.get('person')
         try:
             complaint = Complaints.objects.get(id=complaint_id)
         except Complaints.DoesNotExist:
