@@ -8,6 +8,8 @@ import jwt, datetime
 from .utils import generate_otp, send_otp_email
 from django.utils import timezone
 from Complaints.utils import authenticate_user
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 from django.conf import settings
 
 class OfficialRegistrationView(APIView):
@@ -77,7 +79,7 @@ class OTPVerificationView(APIView):
         user.otp_created_at = None
         user.save()
 
-        return Response({'message': 'Email verified successfully'}, status=status.HTTP_200_OK)
+        return HttpResponseRedirect(reverse('pwd')) #has to create the url pwd to go to the first page of the user
 
 
 class LoginView(APIView):
