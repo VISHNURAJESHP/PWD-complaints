@@ -8,6 +8,7 @@ import jwt, datetime
 from .utils import generate_otp, send_otp_email
 from django.utils import timezone
 from Complaints.utils import authenticate_user
+from django.conf import settings
 
 class OfficialRegistrationView(APIView):
     def post(self, request, *args, **kwargs):
@@ -81,6 +82,7 @@ class OTPVerificationView(APIView):
 
 class LoginView(APIView):
     def post(self, request):
+        secret_key = settings.HASH_KEY
         serializer = LoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -102,7 +104,7 @@ class LoginView(APIView):
             "iat": datetime.datetime.utcnow(),
         }
 
-        token = jwt.encode(payload, "your_secret_key", algorithm="HS256")
+        token = jwt.encode(payload, secret_key, algorithm="HS256")
 
         response = Response()
         response.set_cookie(
