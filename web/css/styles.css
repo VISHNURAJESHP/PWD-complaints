@@ -105,24 +105,32 @@ header nav a {
     justify-content: space-between;
 }
 
+.about-left {
+    width: 50%; /* Make the image section half the width */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .about-left img {
-    max-width: 100%;
+    width: 90%;
     height: auto;
 }
 
 .about-right {
-    max-width: 600px;
+    width: 50%;
     text-align: left;
+    
 }
 
 .about-right h2 {
-    font-size: 24px;
-    color: #ff5a5f; /* Title color */
+    font-size: 34px;
+    color: black; /* Title color */
     margin-bottom: 10px;
 }
 
 .about-right p {
-    font-size: 16px;
+    font-size: 17px;
     color: black; /* Description text color */
 }
 
@@ -141,7 +149,7 @@ header nav a {
 
 .registration .overlay {
     background-color: rgba(255, 90, 95, 0.8); /* Semi-transparent overlay */
-    padding: 40px 20px;
+    padding: 40px 60px;
     border-radius: 10px;
 }
 
