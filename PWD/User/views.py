@@ -79,7 +79,7 @@ class OTPVerificationView(APIView):
         user.otp_created_at = None
         user.save()
 
-        return HttpResponseRedirect(reverse('pwd')) #has to create the url pwd to go to the first page of the user
+        return HttpResponseRedirect(reverse('pwd')) #has to create the url pwd to go to the first page of the user http://pwd.com
 
 
 class LoginView(APIView):
